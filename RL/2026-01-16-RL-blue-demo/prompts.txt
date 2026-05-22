@@ -1,0 +1,22 @@
+年龄：未透露，估计是70后学历：复旦大学，卡耐基梅隆大学人物经历：陆奇，毕业于复旦大学，获计算机科学学士、硕士学位，1987年毕业后留校执教。此后就读于卡耐基梅隆大学，获计算机科学博士学位。陆奇博士除了在学术界发表过一系列高质量的研究论文，还持有40多项美国专利。1998年陆奇加盟雅虎，2006年被任命为雅虎的资深副总裁，2007年任雅虎执行副总裁；2008年加盟微软任执行副总裁，2016年9月从微软离职；2017年1月，陆奇加入百度，担任百度集团总裁兼首席运营官，2月，被任命为百度公司董事及董事会副主席，2018年7月，陆奇不再担任百度集团总裁兼首席运营官职务。现任Y Combinator中国创始人及首席执行官总结：超级学霸+超级公司高管，ps：融资可以找他，现在是YC中国创始人
+作者：我在被窝里放个屁
+链接：https://www.zhihu.com/question/392800664/answer/1220825671
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+核心架构
+宏观链路：User/Item Data (Interaction, Text, Image) -> Generative Foundation Model (Encoder/Decoder/Diffusion) -> Task Head (Ranking/Generation) -> Output (Item Sequence, Explanation, Created Content).
+关键设计：提出 Data-Model-Task 三维分类法。架构核心是将推荐任务重构为 Conditional Generation 问题（即 
+），利用 Transformer 或 Diffusion 的去噪能力，统一处理 ID 预测、解释生成与多模态内容创造。
+2. 关键创新
+LLM-driven Paradigm (大模型驱动范式) ：
+机制：将推荐建模为自然语言处理任务。利用 In-Context Learning (ICL) 实现 Zero-shot 冷启动推荐，或通过 Instruction Tuning 微调 LLM 对齐用户偏好。
+痛点解决：解决了传统 ID-based 模型缺乏语义理解和解释性的问题，支持Conversational Interface（对话式推荐）。
+Generative CF (生成式协同过滤) ：
+机制：摒弃传统矩阵分解，引入 Diffusion Models 对 User-Item 交互矩阵进行建模。通过“正向加噪-反向去噪”过程，从纯高斯噪声中恢复出用户潜在交互偏好。
+差异：相比 AutoEncoder，扩散模型能更精准地拟合复杂的多峰交互分布，显著提升抗噪性与长尾物品推荐效果。
+3. 落地与优化
+训练策略：分为 Direct Training（在交互数据上从头训练 VAE/Diffusion）与 Pre-train + Fine-tune（利用 PEFT/LoRA 适配 LLM）。
+工程 Trick：
+RAG (检索增强) ：引入外部知识库缓解 LLM 幻觉，提升推荐实效性。
+ID Tokenization：设计特殊的 Indexing 策略（如语义 ID）将 Item ID 映射为 LLM 可理解的 Token 序列。
+效果：Gen-RecSys 在 Zero-shot 场景、跨域推荐及可解释性任务上大幅超越 SOTA，但在推理延迟（Latency）上仍面临巨大挑战。

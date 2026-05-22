@@ -1,0 +1,22 @@
+[project]
+name = "2026-01-16-rl-blue-demo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "transformers>=4.30.0",
+    "torch>=1.12.0",
+    "trl>=0.4.0",
+    "datasets",
+    "accelerate",
+    "sentencepiece",
+    # 如果要使用更大模型或 8-bit 加速，可能需要 bitsandbytes、peft 等
+    # bitsandbytes
+]
+
+
+[[tool.uv.index]]
+url = "http://mirrors.aliyun.com/pypi/simple"
+#url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
